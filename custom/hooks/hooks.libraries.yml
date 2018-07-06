@@ -1,0 +1,17 @@
+myjs:
+  version: 1.x
+  js:
+    js/serach2.js: {}
+  css:
+    component:
+      css/search2.css: {} #hooks/css
+hook.autocomplete:
+  version: 1.x
+  css:
+    theme:
+      css/hooksAutocomplete.css: {} # hooks/css
+  js:
+    js/hooksAutocomplete.js: {}
+  dependencies:
+    - core/jquery
+    - core/drupal
