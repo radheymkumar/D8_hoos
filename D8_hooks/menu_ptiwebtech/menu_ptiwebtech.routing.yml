@@ -1,0 +1,42 @@
+menu_ptiwebtech.menu1:
+  path: '/ptimenu'
+  defaults:
+    _controller: '\Drupal\menu_ptiwebtech\Controller\MenuPtiwebtech::menu1'
+    _title: 'Menu 1'
+  requirements:
+    _permission: 'access content'
+menu_ptiwebtech.permissioned:
+  path: '/ptimenu/permissioned'
+  defaults:
+    _controller: '\Drupal\menu_ptiwebtech\Controller\MenuPtiwebtech::permissioned'
+    _title: 'Menu Permissioned'
+  requirements:
+    _permission: 'access content'
+menu_ptiwebtech.permissionedcontroller:
+  path: '/ptimenu/permissioned/controller'
+  defaults:
+    _controller: '\Drupal\menu_ptiwebtech\Controller\MenuPtiwebtech::permissionedController'
+    _title: 'Permissioned Controller'
+  requirements:
+    _permission: 'access content'
+menu_ptiwebtech.customAccess:
+  path: '/ptimenu/customAccess'
+  defaults:
+    _controller: '\Drupal\menu_ptiwebtech\Controller\MenuPtiwebtech::customAccess'
+    _title: 'customAccess'
+  requirements:
+    _permission: 'access content'
+menu_ptiwebtech.urlArgument:
+  path: '/ptimenu/urlArgument/{arg1}/{arg2}'
+  defaults:
+    _controller: '\Drupal\menu_ptiwebtech\Controller\MenuPtiwebtech::urlArgument'
+    _title: 'urlArgument'
+  requirements:
+    _permission: 'access content'
+menu_ptiwebtech.placeholder.display:
+  path: 'ptimenu/placeholder/{arg}/display'
+  defaults:
+    _controller: '\Drupal\menu_ptiwebtech\Controller\MenuPtiwebtech::placeholderDisplay'
+    _title: 'placeholderDisplay'
+  requirements:
+    _permission: 'access content'

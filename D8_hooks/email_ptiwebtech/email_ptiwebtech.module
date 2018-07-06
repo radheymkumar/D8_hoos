@@ -1,0 +1,30 @@
+<?php
+//	drupal_set_message('emails');
+
+function email_ptiwebtech_mail($key, &$message, $params) {
+	$options =[
+		'langcode' => $message['langcode'],
+	];
+	switch ($key) {
+		case 'sentMail':
+			$from = \Drupal::config('system.site')->get('mail');
+			$message['subject'] = t('Email Send  from Drupal 8', $options);
+			$message['body'][] = $params['message'];
+			break;
+	}
+}
+
+function email_ptiwebtech_mail_alter(&$message) {
+	$options = [
+		'langcode' => $message['langcode'],
+	];
+
+	$signature = t("\n--\nMail altered by email_example module.", [], $options);
+	
+	if($message['key'] == 'sentMail'){
+		$message['body'][] = $signature;	
+	} else {
+		$message['body'] .= $signature; 
+	}
+	
+}

@@ -1,0 +1,7 @@
+myjs:
+  version: 1.x
+  js:
+    js/serach2.js: {}
+  css:
+    component:
+      css/search2.css: {}

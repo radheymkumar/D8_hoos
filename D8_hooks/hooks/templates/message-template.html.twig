@@ -1,0 +1,27 @@
+<p>Test twig template!</p>
+
+{{ test_var.apple }}
+
+
+
+<ul>
+{% for key, value in test_var %}
+	<li class="{{ key }}"> {{ key }} - {{ value }}</li>
+{% endfor %}
+</ul>
+
+<hr> 
+
+<ol>
+{% for key2, value2 in test_var2 %}
+	<li class="{{ key2 }}"> {{ key2 }} - {{ value2 }}</li>
+{% endfor %}
+</ol>
+
+<hr>
+
+{{ my_from }}
+
+<hr>
+
+{{ form_arg }}

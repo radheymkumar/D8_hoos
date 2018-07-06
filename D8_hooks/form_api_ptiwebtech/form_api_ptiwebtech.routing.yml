@@ -1,0 +1,7 @@
+form_api_ptiwebtech.ajaxaddmore:
+  path: '/ajaxaddmore'
+  defaults:
+    _form:  '\Drupal\form_api_ptiwebtech\Form\AjaxAddMores'
+    _title: 'Form ajaxaddmore'
+  requirements:
+    _permission: 'access content'

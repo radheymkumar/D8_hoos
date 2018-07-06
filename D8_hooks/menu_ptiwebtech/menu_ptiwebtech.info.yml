@@ -1,0 +1,6 @@
+name: Menu Ptiwebtech
+description: menu_ptiwebtech
+core: 8.x
+version: 8.1
+type: module
+package: PTIWEBTECH

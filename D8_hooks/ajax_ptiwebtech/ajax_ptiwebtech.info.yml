@@ -1,0 +1,6 @@
+name: Ajax Ptiwebtech
+type: module
+description: ajax_ptiwebtech
+core: 8.x
+version: 8.1
+package: PTIWEBTECH

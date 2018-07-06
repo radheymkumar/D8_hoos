@@ -1,0 +1,6 @@
+name: Block Ptiwebtech
+description: block_ptiwebtech
+type: module
+core: 8.x
+version: 8.1
+package: PTIWEBTECH

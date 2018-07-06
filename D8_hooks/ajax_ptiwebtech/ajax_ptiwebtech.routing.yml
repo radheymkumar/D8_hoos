@@ -1,0 +1,63 @@
+ajax_ptiwebtech.ajaxexampleform:
+  path: '/ajaxexampleform'
+  defaults:
+    _form: '\Drupal\ajax_ptiwebtech\Form\AjaxExampleForm'
+    _title: 'Ajax Example'
+  requirements:
+    _permission: 'access content'
+ajax_ptiwebtech.autotextfields:
+  path: '/autotextfields'
+  defaults:
+    _form: '\Drupal\ajax_ptiwebtech\Form\Autotextfields'
+    _title: 'Ajax Example - Autotextfields'
+  requirements:
+    _permission: 'access content'
+ajax_ptiwebtech.dependentdropdown:
+  path: '/dependentdropdown'
+  defaults:
+    _form: '\Drupal\ajax_ptiwebtech\Form\DependentDropdown'
+    _title: 'Ajax Example - DependentDropdown'
+  requirements:
+    _permission: 'access content'
+ajax_ptiwebtech.dynamicformsections:
+  path: '/dynamicformsections'
+  defaults:
+    _form: '\Drupal\ajax_ptiwebtech\Form\DynamicFormSections'
+    _title: 'Ajax Example - DynamicFormSections'
+  requirements:
+    _permission: 'access content'
+ajax_ptiwebtech.entityautocomplete:
+  path: '/entityautocomplete'
+  defaults:
+    _form: '\Drupal\ajax_ptiwebtech\Form\EntityAutocomplete'
+    _title: 'Ajax Example - EntityAutocomplete'
+  requirements:
+    _permission: 'access content'
+ajax_ptiwebtech.simplest:
+  path: '/simplest'
+  defaults:
+    _form: '\Drupal\ajax_ptiwebtech\Form\Simplest'
+    _title: 'Ajax Example - Simplest'
+  requirements:
+    _permission: 'access content'
+ajax_ptiwebtech.ajaxexamplecontroller:
+  path: '/ajaxexamplecontroller'
+  defaults:
+    _controller: '\Drupal\ajax_ptiwebtech\Controller\AjaxExampleController::content'
+    _title: 'Ajax Example - AjaxExampleController'
+  requirements:
+    _permission: 'access content'
+ajax_ptiwebtech.ajaxexamplecontroller2:
+  path: '/ajaxexamplecontroller2'
+  defaults:
+    _controller: '\Drupal\ajax_ptiwebtech\Controller\AjaxExampleController::content2'
+    _title: 'Ajax Example - AjaxExampleController 2'
+  requirements:
+    _permission: 'access content'
+ajax_ptiwebtech.ajaxvalidate:
+  path: '/ajaxvalidate'
+  defaults:
+    _form: '\Drupal\ajax_ptiwebtech\Form\AjaxValidate'
+    _title: 'Ajax Example - Validate'
+  requirements:
+    _permission: 'access content'

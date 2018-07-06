@@ -1,0 +1,375 @@
+<?php
+//devel http://ratatosk.net/drupal/tutorials/debugging-drupal.html
+use Drupal\Core\Form\FormStateInterface;
+use Drupal\Core\Url;
+use Drupal\Core\Link;
+
+use Drupal\Core\Entity\EntityInterface;
+use Drupal\node\Entity\Node;
+
+use Drupal\taxonomy\Entity\Term;
+/*use Drupal\Core\Ajax\AjaxResponse;
+use Drupal\Core\Ajax\HtmlCommand;
+use Drupal\Core\Ajax\InvokeCommand;
+use Drupal\Core\Ajax\CssCommand;*/
+//use Drupal\Core\Entity\EntityTypeInterface;
+
+use \Drupal\Core\Entity\EntityTypeManagerInterface;
+
+function hooks_form_alter(&$form, FormStateInterface $form_state, $form_id) {
+	drupal_set_message($form_id);
+	 //dpm($form_id);	//dsm($form_id);
+	//dpr($form_id); //dvr($form_id);;
+	if($form_id == 'node_website_form') {
+		$form['field_simple_interset']['#disabled'] = TRUE;
+		$form['field_simple_interset']['#attributes']['class'][] = 'simple-intersets';
+		$form['field_simple_interset']['widget'][0]['value']['#title'] = 'SIMPLE INTERSET';
+		$form['actions']['submit2'] = [
+			'#type' => 'submit',
+			'#value' => 'Save and Go Front',
+			'#weight' => 10,
+			'#submit' => ['::submitForm','::save', 'saveValueSession'],
+			'#redirect' => 'node/add/website',
+		];
+		$form['actions']['reset'] = [
+			'#type' => 'submit',
+			'#value' => 'Reset',
+			'#weight' => 15,
+			'#validate' => array(),
+			'#attributes' => array('onclick' => 'this.form.reset(); return false;'),
+		];
+
+
+		$SentMail = Url::fromRoute('email_ptiwebtech.mailform');
+		
+		$SentMail->setOptions(array(
+		  'absolute' => TRUE,	
+		  'attributes' => array(
+		    'class' => array(
+		      'my-first-class',
+		      'my-second-class',
+		    ),
+		    'title' => 'Send My Email',
+		  ),
+		));
+
+		$form['website_info'] = [
+			'#markup' => t("Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book " . \Drupal::l(t('<b>Send Mail</b>'), $SentMail)),
+			'#weight' => -200,
+		];
+		$form['#validate'][] = '_website_type_validate';
+
+		//$version = \Drupal::VERSION;	// Drupal 8 Version
+		//$root = \Drupal::root();	//	/home4/trimurty/demosrvr.com/drupal/zju
+		//$installProfile = \Drupal::installProfile();	// Install Profile
+		//$request = \Drupal::request();	// Syntex - \Drupal::request()->attributes->get('_route')
+			//Syntex - \Drupal::request()->query->get('q')
+			//Syntex - \Drupal::request()->server->get('DOCUMENT_ROOT')
+		
+		// CURRENT USER	
+		//\Drupal::currentUser()
+		//\Drupal::currentUser()->id()
+		//\Drupal::currentUser()->getRoles()
+
+
+		
+		  
+		//$current_path = \Drupal::service('path.current')->getPath();
+		/*$current_path = \Drupal::request()->getpathInfo();
+		$path_arg = explode('/', $current_path);*/
+
+		//$query = \Drupal::request()->query->get('q');	//?q=test1
+		//$query = \Drupal::request()->query->all();	//?q=test1&u=test2
+		
+		//$request_method = \Drupal::request()->server->get('REQUEST_METHOD'); // server variable
+		
+		//$get = \Drupal::request()->getUri();	//getPathInfo(); //getBaseUrl();
+		
+		
+
+		//dsm($form);
+
+		//$node = Node::load(46);
+
+		//dsm($node->nid->value);
+		//dsm($node->title->value);
+		//dsm($node->get('field_principal')->getValue());
+		//dsm($node->get('field_principal')->value);
+		//dsm($node->field_principal->value);
+	}
+}   
+
+function saveValueSession(array &$form, FormStateInterface $form_state ) {
+	//drupal_set_message('saveValueSession');
+	$form_state->setRedirect('<front>');
+	//dsm($form_state);
+}
+
+function _website_type_validate(array &$form, FormStateInterface $form_state) {
+	$values = $form_state->getValues();
+	//dsm($values);
+
+	if(!preg_match('/^[a-zA-Z\s]+$/', $values['title'][0]['value'])) {
+		$form_state->setErrorByName('title', t('Title must be character with using space'));
+	}
+
+	$InterSetValue = [
+		'field_principal' => $values['field_principal'][0]['value'],
+		'field_rate' => $values['field_rate'][0]['value'],
+		'field_time' => $values['field_time'][0]['value'],
+	];
+	
+	foreach ($InterSetValue as $k => $val) {
+		if(!preg_match('/^[0-9]\d{0,10}/i', $val)) {
+			$key = str_replace('field_', '', $k);
+			$form_state->setErrorByName($k, t('Please fill valid ' . ucwords($key)));
+		}
+	} 
+}
+
+
+/**
+*	hook_form_BASE_FORM_ID_alter()
+*/
+function hooks_form_SEARCH_BLOCK_FORM_alter(array &$form, FormStateInterface $form_state, $form_id) {
+	//dsm($form);
+
+	$form[]['#attached']['library'][] = 'hooks/myjs';	//http://www.drupal8.ovh/index.php/en/tutoriels/70/add-javascript-to-a-module
+	$form[]['#attached']['library'][] = 'hooks/mycss';
+
+	$form['keys']['#size'] = 20;	//default 15
+	$form['keys']['#attributes']['placeholder'] = t('Enter Your Key');
+	$form['keys']['#attributes']['title'] = t('Search Text Here...');
+	$form['actions']['submit'] = array('#type' => 'image_button', '#src' => drupal_get_path('module', 'hooks').'/images/search-icon.png');
+	
+} 
+
+
+
+/**
+*	hook_node_presave()
+*/
+
+function hooks_node_presave(EntityInterface $node) {
+	//print_r($node->getType());
+	if($node->getType() == 'website') {
+		$principal =  isset($node->field_principal) ? $node->field_principal->value : '0';
+		$rate =  isset($node->field_rate) ? $node->field_rate->value : '0';
+		$time =  isset($node->field_time) ? $node->field_time->value : '0';
+		$ci = ($principal * $rate * $time) / 100;
+		//$node->field_simple_interset->value = $ci;
+		$node->set('field_simple_interset', $ci);
+		drupal_set_message(t('Success Simple Interset.'));
+	}
+}
+
+/**
+*	hook_node_insert()
+*/
+function hooks_node_insert(EntityInterface $node) {
+	//dpm($node);
+	if($node->getType() == 'website') {
+		
+		$nid = $node->id();
+		$title = $node->title->value;
+		$body  = $node->body->value;
+		$principal = $node->field_principal->value;
+		$rate = $node->field_rate->value;
+		$simple_interset = $node->field_simple_interset->value;
+		$time = $node->field_time->value;
+		
+		$data = 'NID => ' . $nid . ' <br> ' . 
+				'Title => ' . $title . ' <br> ' . 
+				'Body =>  ' . $body . ' <br> ' . 
+				'Princiapl => ' . $principal . ' <br> ' . 
+				'Rate => ' . $rate . ' <br> ' . 
+				'Time => ' . $time . '<br>' .
+				'Simple Interset => ' . $simple_interset; 
+
+		// create node		
+			$node = Node::create(['type' => 'page']);
+			$node->set('title', $title . ' page ');
+			$body = [
+				'value' => $data,
+				'format' => 'full_html',
+				];
+			$node->set('body', $body);
+			$node->set('status', 0);
+			$node->save();
+
+		// create term
+			$term = Term::create([
+				'vid' => 'tags',
+				'name' => $title,
+			]);	
+			$term->enforceIsNew(true);
+			$term->save();
+		
+		// add logs
+		\Drupal::logger('hooks')->notice('Add New Website logs');
+
+		drupal_set_message( "Node with nid " . $node->id() . " Basic Page Saved !\n");
+
+	}
+
+}
+
+/**
+*	hook_theme()
+*/
+function hooks_theme($existing, $type, $theme, $path) {
+
+	return [
+		'message_template' => [
+			'render element' => 'form',
+			'path' => $path.'/templates',
+			'variables' => [
+				'test_var' => NULL,
+				'test_var2' => NULL,
+				'my_from' => NULL,
+				'form_arg' => NUll,
+			],
+			'template' => 'message-template',
+		],
+		'form_template' => [
+			'render element' => 'form',
+			'path' => $path.'/templates',
+			/*'variables' => [
+				'form_var' => NULL,
+			],*/
+			'template' => 'form-example-template',
+		],
+		'twig_code_example_template' => [
+			'render element' => 'element_text',
+			'path' => $path.'/templates',
+			'template' => 'twig-code-example-template'
+		],
+		'node_article_form' => [
+			'render element' => 'form',
+			'path' => $path.'/templates',
+			'template' => 'article-form-template'
+		],
+	];
+}
+
+/**
+* hook_node_view()
+*/
+function hooks_node_view(array &$build, EntityInterface $entity, \Drupal\Core\Entity\Display\EntityViewDisplayInterface $display, $view_mode) {
+   //$build['body'][0]['#text'] = 'this is a new altered content body ';
+	if ($entity->getType() == 'article') {
+		$build['add_custom_text'] = [
+			'#markup' => get_by_node_id_node_title($entity->id()),
+			'#weight' => -10,
+		];	
+	}	
+}
+
+function get_by_node_id_node_title($nid) {
+	$node = Node::load($nid);
+	return $node->isPublished() ? 'Publish': 'Unpublish';
+}
+
+/**
+*	hook_form_system_theme_settings_alter()
+*/
+function hooks_form_system_theme_settings_alter(&$form, FormStateInterface $form_state) {
+	$form['fieldset_social'] = [
+		'#type' => 'fieldset',
+		'#title' => t('Social Icon Url'),
+		'#collapsible' => FALSE,
+		'#collapsed' => FALSE,
+	];
+	$form['fieldset_social']['display'] = [
+		'#type' => 'checkbox',
+		'#title' => t('Show social icon'),
+		'#default_value' => '',
+		'#description' => t("Check this option to show Social Icon. Uncheck to hide."),
+	];
+	$form['fieldset_social']['twitter'] = array(
+	    '#type' => 'textfield',
+	    '#title' => t('Twitter URL'),
+	   // '#default_value' => theme_get_setting('twitter', 'responsive_green'),
+	    '#description' => t("Enter your Twitter Profile URL. example:: http://www.xyz.com"),
+	  );
+  $form['fieldset_social']['facebook'] = array(
+	    '#type' => 'textfield',
+	    '#title' => t('Facebook URL'),
+	 //   '#default_value' => theme_get_setting('facebook', 'responsive_green'),
+	    '#description'   => t("Enter your Facebook Profile URL. example:: http://www.xyz.com"),
+	  );
+  $form['fieldset_social']['linkedin'] = array(
+	    '#type' => 'textfield',
+	    '#title' => t('LinkedIn URL'),
+	  //  '#default_value' => theme_get_setting('linkedin', 'responsive_green'),
+	    '#description'   => t("Enter your LinkedIn Profile URL. example:: http://www.xyz.com"),
+  );
+
+}
+
+/**
+*	hooks_user_login()
+*/
+function hooks_user_login($account) {
+	drupal_set_message(t('Configure your <a href=":user-edit">account time zone setting</a>.', [
+      ':user-edit' => $account
+        ->url('edit-form', [
+        	'query' => \Drupal::destination()
+          	->getAsArray(),
+        'fragment' => 'edit-timezone',
+      ]),
+    ]));
+}
+
+/**
+*	hooks_user_logout()
+*/
+function hooks_user_logout($account) {
+	drupal_set_message(t('Thanks Visit Again'));
+	/*$name = $account->getUsername();
+	drupal_set_message('Thanks :name, Visit Again <a href=":login">Login Again</a>.',
+		[':name' => $name, 'query' => ['destination' => 'user/login']]);*/
+}
+
+function hooks_user_format_name_alter(&$name, $account) {
+
+  // Display the user's uid instead of name.
+  /*if ($account
+    ->id()) {
+    $name = t('User @uid', [
+      '@uid' => $account
+        ->id(),
+    ]);
+	drupal_set_message($name);
+  }*/
+}
+
+function hooks_user_cancel($edit, $account, $method) {
+	//dsm($method);
+	switch ($method) {
+		case 'user_cancel_block':
+			drupal_set_message('user_cancel_block');
+			break;
+		case 'user_cancel_block_unpublish':
+			drupal_set_message('user_cancel_block_unpublish');
+			break;
+		case 'user_cancel_reassign':
+			drupal_set_message('user_cancel_reassign');
+			break;	
+	}
+}	
+
+
+/**
+*	hook_views_data_alter()
+*/
+function hooks_views_data_alter(array &$data) {
+	//$data['node_field_data']['nid']['title'] = t('Nid Node');
+}
+
+//Alter a view at the very beginning of Views processing.
+function hooks_views_pre_view(\Drupal\views\ViewExecutable $view, $display_id, array &$args) {
+	if ($view->id() == 'my_all_artical' && $display_id == 'block_1') {
+
+	}
+}

@@ -1,0 +1,7 @@
+name: Email Ptiwebtech
+type: module
+description: Demonstrates how to send and alter Drupal-generated email messages.
+package: PTIWEBTECH
+core: 8.x
+version: '8.1'
+datestamp: 1527634689

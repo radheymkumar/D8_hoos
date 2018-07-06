@@ -1,0 +1,7 @@
+name: Hooks
+description: hooks
+core: 8.x
+version: 8.1
+type: module
+package: PTIWEBTECH
+configure: myconfig.setting

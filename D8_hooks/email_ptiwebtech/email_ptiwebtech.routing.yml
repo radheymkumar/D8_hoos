@@ -1,0 +1,7 @@
+email_ptiwebtech.mailform:
+  path: 'mailform'
+  defaults:
+    _form: '\Drupal\email_ptiwebtech\Form\MailForms'
+    _title: 'Mail Form'
+  requirements:
+    _permission: 'access content'

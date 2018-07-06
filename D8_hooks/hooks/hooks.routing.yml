@@ -1,0 +1,56 @@
+hooks.messagetemplate:
+  path: '/hooks/template'
+  defaults:
+    _controller: '\Drupal\hooks\Controller\MessageTemplate::description'
+    _title: 'Template Example'
+  requirements:
+    _permission: 'access content'
+hooks.tables:
+  path: '/hooks/tables'
+  defaults:
+    _controller: '\Drupal\hooks\Controller\MessageTemplate::tables_list'
+    _title: 'Tables List Example'
+  requirements:
+    _permission: 'access content'
+hooks.formtemplate:
+  path: '/hooks/template/form'
+  defaults:
+    _form: '\Drupal\hooks\Form\FormTemplate'
+    _title: 'Form Template Example'
+  requirements:
+    _permission: 'access content'
+hooks.twigtemplate:
+  path: '/hooks/template/twig'
+  defaults:
+    _controller: '\Drupal\hooks\Controller\MessageTemplate::twig_code_example'
+    _title: 'Twig Code Template Example'
+  requirements:
+    _permission: 'access content'
+hooks.login:
+  path: '/login'
+  defaults:
+    _form: '\Drupal\hooks\Form\LoginPage'
+    _title: 'Login...'
+  requirements:
+    _permission: 'access content'
+hooks.tablelist:
+  path: '/hooks/table'
+  defaults:
+    _form: '\Drupal\hooks\Form\TablePage'
+    _title: 'Table Page...'
+  requirements:
+    _permission: 'access content'
+myconfig.setting:
+  path: '/admin/config/myconfig'
+  defaults:
+    _form: '\Drupal\hooks\Form\MyConfigForm'
+    _title: 'My Config Form'
+  requirements:
+    _permission: 'access content'
+hooks.files:
+  path: '/hooks/file'
+  defaults:
+    _form: '\Drupal\hooks\Form\FileForm'
+    _title: 'File Form'
+  requirements:
+    _permission: 'access content'

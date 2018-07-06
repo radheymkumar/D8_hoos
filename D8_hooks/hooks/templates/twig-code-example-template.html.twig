@@ -1,0 +1,53 @@
+<hr>
+
+<h2>Conditions Looping</h2>
+{% set cont = 10 %}
+{% for j in cont %}
+	{{ dsm(j) }}
+{% endfor %}	
+---
+{% for i in range(0,3) %}
+    {{ i }}
+{% endfor %}
+
+-------------------
+<hr>
+<h2>Conditions IF</h2>
+{% set age = 10 %}
+
+--IF-ElseIF
+{% if age >= 18 %}
+	{{ "Old Age" }}
+{% elseif age < 18 and age >= 12 %}
+	{{ "Young Age" }}	 
+{% else %}	
+	{{ "Child Age "}}
+{% endif %}
+
+--IF-ELSE
+{% if age == 18 %}
+	{{ "Selected" }}
+{% else %}
+	{{ "Not Selected" }}	
+{% endif %}
+
+--IF
+{% if age == 18 %}
+	{{ age }}
+{% endif %}
+<hr>
+<h2>Operator</h2>
+{% set val1 = 5 %}
+{% set val2 = 6 %}
+{{ val1 + val2 }}
+
+{{ (100*2*6)/100 }}
+
+<hr>
+<h2>Variable</h2>
+{% set name = "Radhey" %}
+{% set last = "Kumawat" %}
+{{ name }} {{ last }}
+
+{{ name|upper ~ last|lower }}
+

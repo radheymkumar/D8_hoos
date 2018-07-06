@@ -1,0 +1,6 @@
+.site-branding__name a {
+    color: red !important;
+}
+#edit-submit.image-button {
+    height: 40px;
+}
